@@ -1,159 +1,132 @@
 //timer
-let timeLeft = 60;
 let timer = document.getElementById("timer");
-let startTime = new Date();
-//progress
-let questionsLeft = document.querySelector(".number-of-questions");
-let questionContent = document.getElementById("question");
+let timeLeft = 60;
 
+//questions
+let questionContent = document.getElementById("question");
 let questionCount = 0;
-let questionEl = document.getElementById("questions");
-let answerEl = document.getElementById("answer");
-let score = document.querySelector(".score");
-let questionTotal = 4;
-let quiz = document.getElementById("quiz");
+
+//answer
+let answer = document.getElementById("answer");
+
+//score
 let scores = document.getElementById("scores");
 let allNames = document.getElementById("allNames");
 let allScores = document.getElementById("allScores");
-let splash = document.getElementById("ready");
+
+//quiz
+let quiz = document.getElementById("quiz");
+let title = document.getElementById("title");
+let complete = false
 
 //buttons
-let startButton = document.getElementById("startbutton");
+let startButton = document.getElementById("start");
 let restartButton = document.getElementById("restart");
-let nextButton = document.getElementById("next-button");
 
-//local
-let losses = localStorage.getItem("losses");
-let wins = localStorage.getItem("wins");
-
-if (losses === null) {
-    losses = 0;
-}
-
-if (wins === null) {
-    wins = 0;
-}
-
-// questions taken from w3 schools javascipt quiz
+//data
 const questionArray =
-    [
-        {
-            question: "inside which html element do we put the javascript?",
-            choices: ["<js>", "<javascript>", "<script>", "<scripting>"],
-            answer: "<script>"
-        },
-        {
-            question: "what is the correct javascript syntax to change the content of the html element below?: <p id='demo'>this is a demonstration.</p>",
-            choices: ["#demo.innterHTML = 'Hello world!';", "docutment.getElementByName('p').innerHTML = 'Hello World!';", "document.getElementById('demo').innerHTML = 'Hello world!';", "document.getElement('p').innerHTML = 'Hello world!';"],
-            answer: "document.getElementById('demo').innerHTML = 'Hello world!';"
-        },
-        {
-            question: "where is the correct place to insert a javascript?",
-            choices: ["the <head> section", "the <body> section", "both the <head> and the <body> section are correct."],
-            answer: "both the <head> and the <body> section are correct."
-        },
-        {
-            question: "what is the correct syntax for referring to an external script called xxx.js?",
-            choices: ["<script href='xxx.js'>", "<script src='xxx.js'>", "<script name='xxx.js'>"],
-            answer: "<script src='xxx.js'>"
-        }
-    ];
+    [{
+        question: "inside which html element do we put the javascript?",
+        choices: ["<js>", "<javascript>", "<script>", "<scripting>"],
+        answer: "<script>"
+    },
+    {
+        question: "what is the correct javascript syntax to change the content of the html element below?: <p id='demo'>this is a demonstration.</p>",
+        choices: ["#demo.innterHTML = 'Hello world!';", "docutment.getElementByName('p').innerHTML = 'Hello World!';", "document.getElementById('demo')"],
+        answer: "document.getElementById('demo').innerHTML = 'Hello world!';"
+    },
+    {
+        question: "where is the correct place to insert a javascript?",
+        choices: ["the <head> section", "the <body> section", "both the <head> and the <body> section are correct."],
+        answer: "both the <head> and the <body> section are correct."
+    },
+    {
+        question: "what is the correct syntax for referring to an external script called xxx.js?",
+        choices: ["<script href='xxx.js'>", "<script src='xxx.js'>", "<script name='xxx.js'>"],
+        answer: "<script src='xxx.js'>"
+    }];
 
-restartButton.addEventListener("click", () => {
-    window.location.reload();
-});
-
+//event listeners
 startButton.addEventListener("click", function () {
-    let countdownTimer = setInterval(function () {
-        if (timeLeft > 0) {
-            timeLeft--;
-            if (timeLeft === 1) {
-                document.getElementById("timeLeft").textContent = "Timer: " + timeLeft + " second";
-            } else {
-                document.getElementById("timeLeft").textContent = "Timer: " + timeLeft + " seconds";
-            }
-        } else {
-            clearInterval(countdownTimer);
-            alert("Quiz timer is up");
-            end();
-        }
-    }, 1000);
-
-    startQ();
+    startButton.classList.add("hide");
+    startQuiz();
 });
 
+restartButton.addEventListener("click", function () {
+    location.reload();
+});
 
-function startQ() {
-    console.log("starting quiz...");
-    startButton.style.display = "none";
-    splash.style.display = "none";
+//functions
+function startQuiz() {
+    countdown();
     showQuestion();
 }
-
+// timer
+function countdown() {
+    const interval = setInterval(() => {
+        timeLeft--;
+        timer.textContent = "Timer: " + timeLeft + " seconds";
+        if (timeLeft <= 0 || complete) {
+            clearInterval(interval);
+            endQuiz();
+        }
+    }, 1000);
+}
+// populates question and choices
 function showQuestion() {
-    console.log(questionArray);
-    let qEl = questionArray[questionCount];
-    qEl.textContent = qEl.question;
-    console.log(questionContent)
-    questionContent.textContent = qEl.question;
-
-    answerEl.innerHTML = "";
-
-    qEl.choices.forEach(choice => {
-
-        let button = document.createElement("button");
-        button.textContent = choice;
-        button.addEventListener("click", () => {
-            check(choice, qEl.answer);
+    answer.innerHTML = '';
+    let totalCount = questionArray.length;
+    let currentQuestion = questionArray[questionCount]
+    questionContent.innerHTML = currentQuestion.question;
+    currentQuestion.choices.forEach(choice => {
+        let option = document.createElement("div");
+        option.innerText = choice;
+        option.className = "choice";
+        option.addEventListener("click", () => {
+            check(choice, currentQuestion.answer, totalCount);
         });
-        answerEl.appendChild(button);
+        answer.appendChild(option);
     });
 }
-
-function check(choice, answer) {
-    console.log(choice, answer);
+// check if answer is right or wrong and if wrong deducts 5 seconds from the time/score
+function check(choice, answer, totalCount) {
     if (choice === answer) {
-        alert("correct!");
+        alert("Good job dawg")
     } else {
-        alert("wrong!");
+        alert("Nah, you tripping")
         timeLeft = timeLeft - 5;
     }
-
-    let newQuestion = questionCount++;
-    console.log(newQuestion)
-    console.log(questionArray.length)
-    if (newQuestion < 3) {
-        showQuestion();
+    questionCount++;
+    if (questionCount === totalCount) {
+        complete = true
     } else {
-        end();
+        showQuestion();
     }
 }
-
-function end() {
-    var name = prompt("Thanks for playing! You Scored: " + timeLeft + "\nPlease enter your initials:");
+// anounces end and sets scores to local storage and calls the createScores function
+function endQuiz() {
+    quiz.classList.add("hide");
+    var name = prompt("Quiz is over! Your quiz score is: " + timeLeft + "\nEnter your name to submit your score:");
     var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
-    highScores.push({ name: name, score: timeLeft });
-    localStorage.setItem("highScores", JSON.stringify(highScores));
-    quiz.style.display = "none";
-    scores.style.display = "block";
-    createScores(highScores);
-
-    console.log(highScores);
+    if (name) {
+        highScores.push({ name: name, score: timeLeft });
+        localStorage.setItem("highScores", JSON.stringify(highScores));
+        highScores.sort((a, b) => b.score - a.score);
+        createScores(highScores);
+    } else {
+        endQuiz();
+    }
 }
-
+// populates the scores onto the screen as list elements
 function createScores(highScores) {
-    scores.style.display = "block";
+    scores.classList.remove("hide");
+    restartButton.classList.remove("hide");
     highScores.forEach(score => {
-        let playerName = document.createElement("div");
-        let playerScore = document.createElement("div");
-        playerName.className = "names";
-        playerScore.className = "score";
+        let playerName = document.createElement("li");
+        let playerScore = document.createElement("li");
         playerName.innerHTML = score.name;
         playerScore.innerHTML = score.score;
         allNames.appendChild(playerName);
         allScores.appendChild(playerScore);
-        console.log(playerName);
-        console.log(playerScore);
     });
-
 }
