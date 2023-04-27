@@ -22,4 +22,6 @@ https://github.com/JessePomeroy/quizpage
 
 https://jessepomeroy.github.io/quizpage/
 
-![Screenshots](
+![Screenshots](https://github.com/JessePomeroy/quizpage/blob/main/assets/scrot/quiz.PNG)
+![Screenshots](https://github.com/JessePomeroy/quizpage/blob/main/assets/scrot/quizquestion.PNG)
+![Screenshots](https://github.com/JessePomeroy/quizpage/blob/main/assets/scrot/highscorepage.PNG)
