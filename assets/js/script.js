@@ -18,6 +18,7 @@ let quiz = document.getElementById("quiz");
 let scores = document.getElementById("scores");
 let allNames = document.getElementById("allNames");
 let allScores = document.getElementById("allScores");
+let splash = document.getElementById("ready");
 
 //buttons
 let startButton = document.getElementById("startbutton");
@@ -88,7 +89,7 @@ startButton.addEventListener("click", function () {
 function startQ() {
     console.log("starting quiz...");
     startButton.style.display = "none";
-    // introduction.style.display = "none";
+    splash.style.display = "none";
     showQuestion();
 }
 
@@ -132,7 +133,7 @@ function check(choice, answer) {
 }
 
 function end() {
-    var name = prompt("Quiz is over! Your quiz score is: " + timeLeft + "\nEnter your name to submit your score:");
+    var name = prompt("Thanks for playing! You Scored: " + timeLeft + "\nPlease enter your initials:");
     var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
     highScores.push({ name: name, score: timeLeft });
     localStorage.setItem("highScores", JSON.stringify(highScores));
