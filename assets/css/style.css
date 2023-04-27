@@ -54,11 +54,11 @@ header {
     min-height: 100px;
 }
 
-.card-footer {
+.startbutton {
     text-align: center;
 }
 
-.card-footer::before {
+.startbutton::before {
     content: " ";
     display: block;
     width: 100%;
@@ -66,7 +66,7 @@ header {
     height: 2px;
 }
 
-.card-footer::after {
+.startbutton::after {
     content: " ";
     display: block;
     clear: both;
@@ -96,25 +96,18 @@ button[disabled] {
     float: right;
 }
 
-#password {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border: none;
-    display: block;
-    width: 100%;
-    padding-top: 15px;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 85px;
-    font-size: 1.2rem;
-    text-align: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 2px dashed #c0c7cf;
-    border-radius: 6px;
-    resize: none;
-    overflow: hidden;
+#scores {
+    display: none;
+}
+
+#allNames {
+    float: left;
+    width: 150px;
+}
+
+#allScores {
+    float: left;
+    width: 150px;
 }
 
 @media (max-width: 690px) {

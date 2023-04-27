@@ -1,1 +1,0 @@
-let timeLeft = document.querySelector();
