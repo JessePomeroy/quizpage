@@ -7,13 +7,10 @@ let questionsLeft = document.querySelector(".number-of-questions");
 let questionContent = document.getElementById("question");
 
 let questionCount = 0;
-let currentQuestion = 0;
 let questionEl = document.getElementById("questions");
 let answerEl = document.getElementById("answer");
 let score = document.querySelector(".score");
-let userScore = document.getElementById("user-score");
 let questionTotal = 4;
-let scoreCount = 0;
 let quiz = document.getElementById("quiz");
 let scores = document.getElementById("scores");
 let allNames = document.getElementById("allNames");
