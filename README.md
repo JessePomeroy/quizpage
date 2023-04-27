@@ -18,6 +18,10 @@ THEN I can save my initials and my score
 
 ## Credits
 
+written by me, Jesse Pomeroy.
+
+the quiz question array was originally from W3Schools. 
+
 https://github.com/JessePomeroy/quizpage
 
 https://jessepomeroy.github.io/quizpage/
