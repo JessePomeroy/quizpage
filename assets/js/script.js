@@ -106,7 +106,7 @@ function check(choice, answer, totalCount) {
 
 function endQuiz() {
     quiz.classList.add("hide"); // adds class of hide which has a display of none
-    var name = prompt("Quiz is over! Your quiz score is: " + timeLeft + "\nEnter your name to submit your score:");
+    var name = prompt("The End! Your score is: " + timeLeft + "\nEnter your initials please:");
     var highScores = JSON.parse(localStorage.getItem("highScores")) || []; // get the high scores from local storage
     if (name) { // if there was input entered in the prompt
         highScores.push({ name: name, score: timeLeft }); // pushes name and score to high scores array
